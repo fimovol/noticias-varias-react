@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { Noticias } from './componets/noticias';
+import { Jkanime } from './routes/jkanime';
+import {gql} from '@apollo/client'
 
 function App() {
+  const noticias= gql`
+  {
+    noticias(limit:5){
+      nombre
+      hora
+      img
+      href
+    }
+  }
+  `
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>scraping la web de JKANIME</h1>
+      <Noticias script={noticias}/>
+      <Jkanime/>
     </div>
   );
 }

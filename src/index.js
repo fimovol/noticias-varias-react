@@ -1,17 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import {Jkanime} from './routes/jkanime'
+import {ApolloClient,HttpLink, InMemoryCache, ApolloProvider} from '@apollo/client'
+import { 
+  BrowserRouter,
+  Routes,
+  Route 
+} from 'react-router-dom'
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const cliente = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri:'http://ec2-54-197-174-114.compute-1.amazonaws.com:3120/graphql',
+  })
+})
+
+ReactDOM.render(
+  <BrowserRouter>
+    <ApolloProvider client={cliente}>
+      <Routes>
+        <Route path='/' element={<App />}/>
+        <Route path='/jkanime' element={<Jkanime/>}/>
+      </Routes>
+    </ApolloProvider>
+  </BrowserRouter>
+  ,
+  document.getElementById('root')
+)
